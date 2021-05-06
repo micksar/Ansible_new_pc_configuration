@@ -1,0 +1,9 @@
+---
+- hosts: localhost
+  connection: local	# not the default (ssh) as it will be oarsed localy
+  become: true
+
+  tasks:
+  - name: install htop
+    package: 
+      name: htop 
