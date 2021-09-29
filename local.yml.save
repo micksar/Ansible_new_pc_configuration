@@ -1,3 +1,4 @@
+
 ---
 - hosts: localhost
   connection: local	# not the default (ssh) as it will be parsed localy
@@ -5,14 +6,12 @@
 
   tasks:
   - name: install packages                           # The name that it will be appeared on the playbook when it is finished
-    tags: always
     package:                                         # ansible has many modules. Package is one of them
       name: 
         - htop 
         - tmux
 
   - name: copy .bashrc file
-    tags: always
     copy:
       src: files/bashrc                             # needs to create a files dir, access it and "cp ~/.bashrc bashrc"
       dest: /home/ms/.bashrc                        # copy the bashrc file that i will download from git, on its normal path as a hidden file
@@ -20,7 +19,6 @@
       group: ms
 
   - name: add ansible user
-    tags: user
     user:
       name: ansible
       system: yes
