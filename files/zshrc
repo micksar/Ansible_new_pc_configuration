@@ -1,0 +1,44 @@
+# Path to your oh-my-zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
+
+
+# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+ZSH_THEME="simple"
+
+
+plugins=(git zsh-autosuggestions zsh-syntax-highlighting sudo web-search copyfile copybuffer
+ jsontools)
+
+source $ZSH/oh-my-zsh.sh
+
+#GENERAL ALIASES
+alias update="source ~/.zshrc"
+alias myip="curl ipecho.net/plain; echo"
+alias usage="du -h -d1"
+alias sshdir="cd ~/.ssh"
+alias night="redshift -O 1800"
+alias daylight="redshift -x"
+alias thesis="ssh root@194.163.158.162"
+
+#GIT ALIASES
+alias gcm="git checkout master"
+alias grs="git remote show"
+alias glog="git log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --branches"
+alias gpom="git pull origin master"
+alias gs="git status"
+
+#ANSIBLE ALIASES
+alias alh="ansible all --list-hosts"
+alias ap="ansible-playbook "
+alias a="ansible "
+alias gather="ansible all -m gather_facts"
+alias aconf='ansible-config '
+alias acon='ansible-console '
+alias aver='ansible-version'
+alias arinit='ansible-role-init'
+alias ainv='ansible-inventory '
+alias adoc='ansible-doc '
+alias agal='ansible-galaxy '
+alias apull='ansible-pull '
+alias aval='ansible-vault'
+

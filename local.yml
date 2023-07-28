@@ -16,8 +16,16 @@
     copy:
       src: files/bashrc                             # needs to create a files dir, access it and "cp ~/.bashrc bashrc"
       dest: /home/ms/.bashrc                        # copy the bashrc file that i will download from git, on its normal path as a hidden file
-      owner: ms
-      group: ms
+      owner: "{{ ansible_user }}"
+      group: "{{ ansible_user }}"
+
+  - name: copy .zshrc file
+    tags: always
+    copy:
+      src: files/bashrc
+      dest: /home/ms/.bashrc
+      owner: "{{ ansible_user }}"
+      group: "{{ ansible_user }}"
 
   - name: add ansible user
     tags: user
