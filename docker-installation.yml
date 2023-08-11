@@ -1,0 +1,66 @@
+---
+- name: Install Docker engine
+  hosts: localhost
+  become: true
+  # tasks:
+  #   - name: Update apt cache
+  #     apt:
+  #       update_cache: yes
+  #     become: yes
+  #     ignore_errors: yes
+
+- name: Retrieve Ubuntu Codename
+  gather_facts: true
+  hosts: localhost
+  tasks:
+    - name: Read UBUNTU_CODENAME from /etc/os-release
+      shell: grep UBUNTU_CODENAME /etc/os-release | cut -d'=' -f2
+      register: codename_output
+      changed_when: false
+
+    - name: Install required packages for Docker
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+        state: present
+      become: yes
+
+    - name: Add Docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+      become: yes
+
+    - name: Add Docker repository
+      apt_repository:
+        repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ codename_output.stdout }} stable"
+        state: present
+        update_cache: true
+      become: yes
+      ignore_errors: yes
+
+    - name: Install Docker Engine
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
+        state: latest
+        update_cache: true
+      become: yes
+
+    - name: Change permissions
+      command: chmod 777 /var/run/docker.sock
+      become: yes
+
+    - name: Start and enable Docker service
+      systemd:
+        name: docker
+        enabled: yes
+        state: started
+      become: yes

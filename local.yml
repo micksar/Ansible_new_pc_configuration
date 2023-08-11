@@ -3,6 +3,9 @@
   connection: local	# not the default (ssh) as it will be parsed localy
   become: true
 
+  vars:
+    ansible_user: mike  # Define the local user as a variable
+
   tasks:
   - name: install packages                           # The name that it will be appeared on the playbook when it is finished
     tags: always
@@ -10,12 +13,26 @@
       name: 
         - htop 
         - tmux
+        - zsh
+        - git
+
+  - name: Install Visual Studio Code
+    command: snap install --classic code
+    become: yes
+
+  - name: Install Slack
+    command: snap install slack
+    become: yes
+
+  - name: Install Docker Engine
+    command: snap install slack
+    become: yes
 
   - name: copy .bashrc file
     tags: always
     copy:
-      src: files/bashrc                             # needs to create a files dir, access it and "cp ~/.bashrc bashrc"
-      dest: /home/ms/.bashrc                        # copy the bashrc file that i will download from git, on its normal path as a hidden file
+      src: files/bashrc                                             # needs to create a files dir, access it and "cp ~/.bashrc bashrc"
+      dest: /home/{{ ansible_user }}/.bashrc                        # copy the bashrc file that i will download from git, on its normal path as a hidden file
       owner: "{{ ansible_user }}"
       group: "{{ ansible_user }}"
 
@@ -23,7 +40,7 @@
     tags: always
     copy:
       src: files/bashrc
-      dest: /home/ms/.bashrc
+      dest: /home/{{ ansible_user }}/.zshrc	
       owner: "{{ ansible_user }}"
       group: "{{ ansible_user }}"
 
