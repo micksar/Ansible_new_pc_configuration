@@ -1,7 +1,7 @@
 ---
 - name: Install Docker engine
   hosts: localhost
-  become: true
+  become: yes
   # tasks:
   #   - name: Update apt cache
   #     apt:
@@ -12,6 +12,7 @@
 - name: Retrieve Ubuntu Codename
   gather_facts: true
   hosts: localhost
+  become: yes
   tasks:
     - name: Read UBUNTU_CODENAME from /etc/os-release
       shell: grep UBUNTU_CODENAME /etc/os-release | cut -d'=' -f2
